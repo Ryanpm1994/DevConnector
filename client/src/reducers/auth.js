@@ -24,6 +24,7 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         user: payload,
+        loading: false,
       };
 
     case REGISTER_SUCCESS:
