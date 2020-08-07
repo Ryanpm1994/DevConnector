@@ -10,7 +10,7 @@ import Experience from "./Experience";
 const Dashboard = ({
   getCurrentProfile,
   auth: { user },
-  profile: { profile, loading, experience },
+  profile: { profile, loading },
 }) => {
   useEffect(() => {
     getCurrentProfile();
@@ -22,13 +22,13 @@ const Dashboard = ({
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
-        <i className="fas fa-user"></i>
+        <i className="fas fa-user" />
         Welcome {user && user.name}
       </p>
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          <Experience experience={experience} />
+          <Experience experience={profile.experience} />
         </Fragment>
       ) : (
         <Fragment>
