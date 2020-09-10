@@ -7,6 +7,7 @@ const { check, validationResult } = require("express-validator");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
+const normalize = require("normalize-url");
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
@@ -36,13 +37,13 @@ router.get("/me", auth, async (req, res) => {
 // @desc     Create or update user profile
 // @access   Private
 router.post(
-  '/',
+  "/",
   [
     auth,
     [
-      check('status', 'Status is required').not().isEmpty(),
-      check('skills', 'Skills is required').not().isEmpty()
-    ]
+      check("status", "Status is required").not().isEmpty(),
+      check("skills", "Skills is required").not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -61,20 +62,23 @@ router.post(
       twitter,
       instagram,
       linkedin,
-      facebook
+      facebook,
     } = req.body;
 
     const profileFields = {
       user: req.user.id,
       company,
       location,
-      website: website && website !== '' ? normalize(website, { forceHttps: true }) : '',
+      website:
+        website && website !== ""
+          ? normalize(website, { forceHttps: true })
+          : "",
       bio,
       skills: Array.isArray(skills)
         ? skills
-        : skills.split(',').map((skill) => ' ' + skill.trim()),
+        : skills.split(",").map((skill) => " " + skill.trim()),
       status,
-      githubusername
+      githubusername,
     };
 
     // Build social object and add to profileFields
@@ -96,7 +100,7 @@ router.post(
       res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );

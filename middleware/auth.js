@@ -18,6 +18,6 @@ module.exports = function (req, res, next) {
     req.user = decoded.user;
     next();
   } catch {
-    res, status(401).json({ msg: "Token is not vaild" });
+    res.status(401).json({ msg: "Token is not vaild" });
   }
 };
